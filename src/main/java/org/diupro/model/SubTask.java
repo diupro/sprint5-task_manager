@@ -1,7 +1,5 @@
 package org.diupro.model;
 
-import java.util.Objects;
-
 public final class SubTask extends Task{
 
     private final int epic_id;

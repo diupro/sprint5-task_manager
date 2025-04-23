@@ -48,7 +48,7 @@ public class TaskManager {
             task.setDescription(newDescription);
             task.setStatus(findStatus(newStatus));
             this.hmTasks.put(num, task);
-            System.out.println("Задача изменена: " + task.toString());
+            System.out.println("Задача изменена: " + task);
         }
     }
 
@@ -59,7 +59,7 @@ public class TaskManager {
             epic.setDescription(newDescription);
             epic.setStatus(defineEpicStatus(epic));
             this.hmEpics.put(num, epic);
-            System.out.println("Эпик изменен: " + epic.toString());
+            System.out.println("Эпик изменен: " + epic);
         }
     }
 
@@ -71,7 +71,7 @@ public class TaskManager {
             subTask.setDescription(newDescription);
             subTask.setStatus(findStatus(newStatus));
             this.hmSubTasks.put(num, subTask);
-            System.out.println("Подзадача изменена: " + subTask.toString());
+            System.out.println("Подзадача изменена: " + subTask);
 
             // изменить статус эпика
             Epic epic = this.hmEpics.get(subTask.getEpic_id());
@@ -154,18 +154,10 @@ public class TaskManager {
 
     public static Statuses findStatus(String newStatus) {
         return switch (newStatus) {
-            case "NEW" -> {
-                yield Statuses.NEW;
-            }
-            case "IN_PROGRESS" -> {
-                yield Statuses.IN_PROGRESS;
-            }
-            case "DONE" -> {
-                yield Statuses.DONE;
-            }
-            default -> {
-                yield null;
-            }
+            case "NEW" -> Statuses.NEW;
+            case "IN_PROGRESS" -> Statuses.IN_PROGRESS;
+            case "DONE" -> Statuses.DONE;
+            default -> null;
         };
     }
 
@@ -191,7 +183,7 @@ public class TaskManager {
             if (!hmSubTasks.isEmpty()) {
                 for (SubTask valueSubTask : hmSubTasks.values()) {
                     if (epic.getId() == valueSubTask.getEpic_id()) {
-                        System.out.println(" -- " + valueSubTask.toString());
+                        System.out.println(" -- " + valueSubTask);
                     }
                 }
             }

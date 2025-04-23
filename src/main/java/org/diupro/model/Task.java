@@ -4,7 +4,7 @@ import org.diupro.taskmanager.TaskManager;
 import java.util.Objects;
 
 public class Task {
-    private int id;
+    private final int id;
     private String name;
     private String description;
     private Statuses status;
