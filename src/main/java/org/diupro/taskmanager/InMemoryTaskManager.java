@@ -1,5 +1,6 @@
 package org.diupro.taskmanager;
 
+import org.diupro.TaskManager;
 import org.diupro.model.Epic;
 import org.diupro.model.Statuses;
 import org.diupro.model.SubTask;
@@ -8,14 +9,14 @@ import org.diupro.model.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TaskManager {
+public class InMemoryTaskManager implements TaskManager {
 
     private static int id = 0;
     private final HashMap<Integer, Task> hmTasks;
     private final HashMap<Integer, Epic> hmEpics;
     private final HashMap<Integer, SubTask> hmSubTasks;
 
-    public TaskManager() {
+    public InMemoryTaskManager() {
         this.hmTasks = new HashMap<>();
         this.hmEpics = new HashMap<>();
         this.hmSubTasks = new HashMap<>();
@@ -24,22 +25,25 @@ public class TaskManager {
     public static int getId() {
         return ++id;
     }
-
+    @Override
     public void addTask(String name, String description) {
         Task task = new Task(name, description);
         this.hmTasks.put(task.getId(), task);
     }
 
+    @Override
     public void addEpic(String name, String description) {
         Epic epic = new Epic(name, description);
         this.hmEpics.put(epic.getId(), epic);
     }
 
+    @Override
     public void addSubTask(String name, String description, int epic_id) {
         SubTask subTask = new SubTask(name, description, epic_id);
         this.hmSubTasks.put(subTask.getId(), subTask);
     }
 
+    @Override
     public void changeTask(int num, String newDescription, String newStatus) {
         if (num == 0) return;
         if (newStatus.isEmpty()) return;
@@ -52,6 +56,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void changeEpic(int num, String newDescription) {
         if (num == 0) return;
         if (this.hmEpics.containsKey(num)) {
@@ -63,6 +68,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void changeSubTask(int num, String newDescription, String newStatus) {
         if (num == 0) return;
         if (newStatus.isEmpty()) return;
@@ -79,6 +85,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public Statuses defineEpicStatus(Epic epic) {
         boolean isNew = false;
         boolean isProgress = false;
@@ -108,6 +115,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void deleteTask(int num) {
         if (num == 0) return;
         if (this.hmTasks.containsKey(num)) {
@@ -118,6 +126,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void deleteEpic(int num) {
         if (num == 0) return;
         ArrayList<Integer> arrSubTasksForDel = new ArrayList<>();
@@ -136,6 +145,7 @@ public class TaskManager {
         this.hmEpics.remove(num);
     }
 
+    @Override
     public void deleteSubTask(int num) {
         if (num == 0) return;
         if (this.hmSubTasks.containsKey(num)) {
@@ -161,6 +171,7 @@ public class TaskManager {
         };
     }
 
+    @Override
     public void printTasks() {
         if (this.hmTasks.isEmpty()) {
             System.out.println("Список задач пустой");
@@ -171,6 +182,7 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void printEpics() {
         if (this.hmEpics.isEmpty()) {
             System.out.println("Список эпиков пустой");
@@ -190,11 +202,13 @@ public class TaskManager {
         }
     }
 
+    @Override
     public void printAllTasks() {
         printTasks();
         printEpics();
     }
 
+    @Override
     public void clearAllTasks() {
         this.hmTasks.clear();
         this.hmEpics.clear();
@@ -202,5 +216,8 @@ public class TaskManager {
         System.out.println("Список задач очищен");
     }
 
+    @Override
+    public void getHistory() {
 
+    }
 }

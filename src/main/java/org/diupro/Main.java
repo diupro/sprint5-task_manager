@@ -1,6 +1,6 @@
 package org.diupro;
 
-import org.diupro.taskmanager.TaskManager;
+import org.diupro.taskmanager.InMemoryTaskManager;
 
 import java.util.Scanner;
 
@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
         autoEddTasks(taskManager); // автозаполнение задач в список для удобства и экономии времени
 
@@ -37,7 +37,7 @@ public class Main {
         }
     }
 
-    private static void menuAddTasks(TaskManager taskManager) {
+    private static void menuAddTasks(InMemoryTaskManager taskManager) {
 
         while (true) {
 
@@ -86,7 +86,7 @@ public class Main {
         }
     }
 
-    private static void menuChangeTasks(TaskManager taskManager) {
+    private static void menuChangeTasks(InMemoryTaskManager taskManager) {
 
         while (true) {
             System.out.println("Выберите вид задачи для изменения: 1 - Задача, 2 - Эпик, 3 - Подзадача, 0 - Выход");
@@ -136,7 +136,7 @@ public class Main {
         }
     }
 
-    private static void menuDelTasks(TaskManager taskManager) {
+    private static void menuDelTasks(InMemoryTaskManager taskManager) {
         while (true) {
             System.out.println("Выберите вид задачи для удаления: 1 - Задача, 2 - Эпик, 3 - Подзадача, 0 - Выход");
 
@@ -167,7 +167,7 @@ public class Main {
         }
     }
 
-    private static void autoEddTasks(TaskManager taskManager) {
+    private static void autoEddTasks(InMemoryTaskManager taskManager) {
 
         taskManager.addTask("Задача1", "Описание задачи1");
         taskManager.addTask("Задача2", "Описание задачи2");

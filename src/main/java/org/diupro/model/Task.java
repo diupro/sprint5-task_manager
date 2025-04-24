@@ -1,16 +1,16 @@
 package org.diupro.model;
 
-import org.diupro.taskmanager.TaskManager;
+import org.diupro.taskmanager.InMemoryTaskManager;
 import java.util.Objects;
 
 public class Task {
     private final int id;
-    private String name;
+    private final String name;
     private String description;
     private Statuses status;
 
     public Task(String name, String description) {
-        this.id = TaskManager.getId(); // сквозной код на все задачи
+        this.id = InMemoryTaskManager.getId(); // сквозной код на все задачи
         this.name = name;
         this.description = description;
         this.status = Statuses.NEW;
@@ -50,10 +50,6 @@ public class Task {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -68,5 +64,9 @@ public class Task {
 
     public void setStatus(Statuses status) {
         this.status = status;
+    }
+
+    public static void getTask(int id) {
+
     }
 }

@@ -39,4 +39,8 @@ public final class SubTask extends Task{
     public int getEpic_id() {
         return epic_id;
     }
+
+    public static void getSubTask(int id) {
+
+    }
 }

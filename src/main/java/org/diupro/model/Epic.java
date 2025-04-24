@@ -32,4 +32,8 @@ public final class Epic extends Task{
         // return Objects.equals(getId(), epic.getId());
         return getId() == epic.getId();
     }
+
+    public static void getEpic(int id) {
+
+    }
 }
