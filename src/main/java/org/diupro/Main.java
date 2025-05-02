@@ -1,7 +1,10 @@
 package org.diupro;
 
+import org.diupro.model.Task;
+import org.diupro.taskmanager.HistoryManager;
 import org.diupro.taskmanager.InMemoryTaskManager;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
 
         autoEddTasks(taskManager); // автозаполнение задач в список для удобства и экономии времени
 
@@ -31,6 +35,12 @@ public class Main {
                 taskManager.printAllTasks(); // Вывести список всех задач
             } else if (command == 5) {
                 taskManager.clearAllTasks(); // Удалить все задачи
+            } else if (command == 6) {
+//                taskManager.getHistory(); // показать историю просмотра всех задач
+                List<Task> listHistory = historyManager.getHistory(); // показать историю просмотра всех задач
+                for (Task task : listHistory) {
+                    System.out.println(task);
+                }
             } else {
                 System.out.println("Не известная команда");
             }
@@ -192,6 +202,7 @@ public class Main {
         System.out.println("3 - Удалить задачу");
         System.out.println("4 - Вывести список всех задач");
         System.out.println("5 - Удалить все задачи");
+        System.out.println("6 - Показать историю просмотров всех задач");
         System.out.println("0 - Выход");
     }
 }

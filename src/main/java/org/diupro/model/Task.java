@@ -1,5 +1,6 @@
 package org.diupro.model;
 
+import org.diupro.TaskManager;
 import org.diupro.taskmanager.InMemoryTaskManager;
 import java.util.Objects;
 
@@ -45,23 +46,19 @@ public class Task {
     public int getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public String getDescription() {
         return description;
+    }
+    public Statuses getStatus() {
+        return status;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Statuses getStatus() {
-        return status;
-    }
-
     public void setStatus(Statuses status) {
         this.status = status;
     }

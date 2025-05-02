@@ -1,5 +1,6 @@
 package org.diupro.taskmanager;
 
+import org.diupro.Managers;
 import org.diupro.TaskManager;
 import org.diupro.model.Epic;
 import org.diupro.model.Statuses;
@@ -15,8 +16,10 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> hmTasks;
     private final HashMap<Integer, Epic> hmEpics;
     private final HashMap<Integer, SubTask> hmSubTasks;
+    private final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
+        this.historyManager = Managers.getDefaultHistory();
         this.hmTasks = new HashMap<>();
         this.hmEpics = new HashMap<>();
         this.hmSubTasks = new HashMap<>();
@@ -29,18 +32,21 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTask(String name, String description) {
         Task task = new Task(name, description);
         this.hmTasks.put(task.getId(), task);
+        // добавить в историю
     }
 
     @Override
     public void addEpic(String name, String description) {
         Epic epic = new Epic(name, description);
         this.hmEpics.put(epic.getId(), epic);
+        // добавить в историю
     }
 
     @Override
     public void addSubTask(String name, String description, int epic_id) {
         SubTask subTask = new SubTask(name, description, epic_id);
         this.hmSubTasks.put(subTask.getId(), subTask);
+        // добавить в историю
     }
 
     @Override
@@ -48,19 +54,26 @@ public class InMemoryTaskManager implements TaskManager {
         if (num == 0) return;
         if (newStatus.isEmpty()) return;
         if (this.hmTasks.containsKey(num)) {
-            Task task = this.hmTasks.get(num);
+            Task task = getTask(num); // this.hmTasks.get(num);
             task.setDescription(newDescription);
             task.setStatus(findStatus(newStatus));
             this.hmTasks.put(num, task);
             System.out.println("Задача изменена: " + task);
+            //this.historyManager.add(task);
         }
+    }
+
+    public Task getTask(int numInput) {
+        // записать в историю просмотра Задачи
+        System.out.println(this.historyManager);
+        return this.hmTasks.get(numInput);
     }
 
     @Override
     public void changeEpic(int num, String newDescription) {
         if (num == 0) return;
         if (this.hmEpics.containsKey(num)) {
-            Epic epic = this.hmEpics.get(num);
+            Epic epic = getEpic(num); //this.hmEpics.get(num);
             epic.setDescription(newDescription);
             epic.setStatus(defineEpicStatus(epic));
             this.hmEpics.put(num, epic);
@@ -68,12 +81,18 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    public Epic getEpic(int numInput) {
+        // записать в историю просмотра Эпика
+        System.out.println(this.historyManager);
+        return this.hmEpics.get(numInput);
+    }
+
     @Override
     public void changeSubTask(int num, String newDescription, String newStatus) {
         if (num == 0) return;
         if (newStatus.isEmpty()) return;
         if (this.hmSubTasks.containsKey(num)) {
-            SubTask subTask = this.hmSubTasks.get(num);
+            SubTask subTask = getSubTask(num); //this.hmSubTasks.get(num);
             subTask.setDescription(newDescription);
             subTask.setStatus(findStatus(newStatus));
             this.hmSubTasks.put(num, subTask);
@@ -83,6 +102,14 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = this.hmEpics.get(subTask.getEpic_id());
             changeEpic(epic.getId(), epic.getDescription());
         }
+    }
+
+    public SubTask getSubTask(int numInput) {
+        // записать в историю просмотра Подзадачи
+        SubTask subTask = this.hmSubTasks.get(numInput);
+//        this.historyManager.add(subTask);
+//        System.out.println(this.historyManager);
+        return subTask;
     }
 
     @Override
@@ -162,8 +189,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public static Statuses findStatus(String newStatus) {
-        return switch (newStatus) {
+    public static Statuses findStatus(String inStatus) {
+        return switch (inStatus) {
             case "NEW" -> Statuses.NEW;
             case "IN_PROGRESS" -> Statuses.IN_PROGRESS;
             case "DONE" -> Statuses.DONE;
@@ -195,7 +222,7 @@ public class InMemoryTaskManager implements TaskManager {
             if (!hmSubTasks.isEmpty()) {
                 for (SubTask valueSubTask : hmSubTasks.values()) {
                     if (epic.getId() == valueSubTask.getEpic_id()) {
-                        System.out.println(" -- " + valueSubTask);
+                        System.out.println(" --> " + valueSubTask);
                     }
                 }
             }
@@ -218,6 +245,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void getHistory() {
+        System.out.println("Список истории просмотра всех задач:");
+
 
     }
 }
